@@ -36,7 +36,7 @@
     <style>        
         body {        
             font-family: 'Zen Maru Gothic', sans-serif;        
-            background-color: #f5f5f4;        
+            background-color: #fdf2f8; /* 薄いピンク背景に変更 */  
             color: #292524;        
             overflow-x: hidden;        
             width: 100%;        
@@ -274,190 +274,192 @@
         const LandingPage = ({ onStart, mainColor }) => {        
             return (        
                 <div className="max-w-4xl mx-auto p-4 animate-fade-in-up space-y-8 pb-12">        
-                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-stone-100 text-center space-y-4">        
+                    <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-rose-100 text-center space-y-4">        
                                 
                         {/* キャッチコピーエリア */}        
-                        <div className="mb-6 bg-stone-50 p-4 rounded-xl border border-stone-200/50">        
-                            <p className="font-bold text-stone-600 text-sm md:text-base leading-loose">        
+                        <div className="mb-6 bg-rose-50 p-6 rounded-xl border border-rose-200 shadow-inner">        
+                            <p className="font-bold text-stone-600 text-sm md:text-base leading-loose font-mincho">        
                                 「結婚式の引き出物、<br/>        
                                 準備がたいへん...」<br/>        
                                 そんな時は、<br/>        
-                                <span className="text-xl font-bold" style={{color: mainColor}}>「スマホde引き出物！」</span>        
+                                <span className="text-2xl font-bold font-script text-rose-500 block mt-2" style={{color: mainColor}}>スマホde引き出物！</span>        
                             </p>        
                         </div>        
                                 
                         {/* Image Inserted Here */}        
                         <div className="mb-6 flex justify-center">        
-                            <img         
-                                src="./sample2.jpg"         
-                                className="max-w-[80%] md:max-w-[280px] h-auto object-contain shadow-lg rounded-lg transform rotate-2"        
-                                onError={(e) => {        
-                                    e.target.style.display = 'none'; // 万が一画像がない場合は非表示に        
-                                }}        
-                            />        
+                            <div className="relative p-2 bg-white rounded-lg shadow-md transform rotate-2 border border-rose-100">  
+                                <img         
+                                    src="./sample2.jpg"         
+                                    className="max-w-[80%] md:max-w-[280px] h-auto object-contain rounded"        
+                                    onError={(e) => {        
+                                        e.target.style.display = 'none'; // 万が一画像がない場合は非表示に        
+                                    }}        
+                                />        
+                            </div>  
                         </div>        
                                 
                         {/* サービス説明 */}        
-                        <h2 className="text-2xl md:text-3xl font-bold text-stone-700 font-mincho">スマホde引き出物！とは？</h2>        
-                        <p className="text-black font-medium leading-relaxed">        
-                            スマホde引き出物！では、<br/>        
-                            引き出物としてのデジタルギフトに<br/>        
-                            メッセージカードを添えられます。        
+                        <h2 className="text-2xl md:text-3xl font-bold text-stone-700 font-mincho border-b-2 border-rose-200 inline-block pb-2">スマホde引き出物！とは？</h2>        
+                        <p className="text-stone-700 font-medium leading-relaxed font-mincho mt-4">        
+                            スマホde引き出物！は、<br/>        
+                            ご祝儀に合わせた金額で、<br/>        
+                            スマホで贈れる引き出物です。        
                         </p>        
                         {/* ビジュアル説明：アイコンとステップ図 */}        
-                            <div className="text-left bg-stone-50 p-5 md:p-6 rounded-2xl space-y-4 mt-6 border border-stone-100">        
-                                <h3 className="font-bold text-stone-700 mb-6 flex items-center justify-center gap-2">        
+                            <div className="text-left bg-gradient-to-br from-white to-rose-50 p-5 md:p-6 rounded-2xl space-y-4 mt-8 border border-rose-100 shadow-sm">        
+                                <h3 className="font-bold text-stone-700 mb-6 flex items-center justify-center gap-2 font-mincho">        
                                     <IconSparkles className="text-yellow-500" />         
                                     3ステップで簡単！        
                                 </h3>        
                                         
                                 <div className="flex items-start justify-between relative">        
-                                    <div className="absolute top-6 left-12 right-12 h-0.5 bg-stone-300 -z-10 hidden md:block"></div>        
+                                    <div className="absolute top-6 left-12 right-12 h-0.5 bg-rose-200 -z-10 hidden md:block"></div>        
                                             
                                     <div className="flex flex-col items-center gap-2 flex-1">        
                                         <div className="w-12 h-12 bg-white border-2 border-yellow-500 rounded-full flex items-center justify-center text-yellow-500 shadow-sm z-10">        
                                             <IconGift size={24} />        
                                         </div>        
                                         <div className="text-center">        
-                                            <span className="block text-sm font-bold text-stone-700">ギフト選択</span>        
+                                            <span className="block text-sm font-bold text-stone-700 font-mincho">引き出物選択</span>        
                                             <span className="block text-[10px] text-stone-500">URLを<br/>貼るだけ</span>        
                                         </div>        
                                     </div>        
         
-                                    <div className="self-center pt-3 text-stone-300 md:hidden">▶</div>        
+                                    <div className="self-center pt-3 text-rose-300 md:hidden">▶</div>        
         
                                     <div className="flex flex-col items-center gap-2 flex-1">        
                                         <div className="w-12 h-12 bg-white border-2 border-[#D9333F] rounded-full flex items-center justify-center text-[#D9333F] shadow-sm z-10">        
                                             <IconMagic size={24} />        
                                         </div>        
                                         <div className="text-center">        
-                                            <span className="block text-sm font-bold text-stone-700">メッセージカード作成</span>        
+                                            <span className="block text-sm font-bold text-stone-700 font-mincho">メッセージカード作成</span>        
                                             <span className="block text-[10px] text-stone-500">デザイン自由!<br/>デジタル完結!</span>        
                                         </div>        
                                     </div>        
         
-                                    <div className="self-center pt-3 text-stone-300 md:hidden">▶</div>        
+                                    <div className="self-center pt-3 text-rose-300 md:hidden">▶</div>        
         
                                     <div className="flex flex-col items-center gap-2 flex-1">        
                                         <div className="w-12 h-12 bg-white border-2 border-green-500 rounded-full flex items-center justify-center text-green-500 shadow-sm z-10">        
-                                            <IconPrinter size={24} />        
+                                            <IconShare size={24} />        
                                         </div>        
                                         <div className="text-center">        
-                                            <span className="block text-sm font-bold text-stone-700">印刷</span>        
-                                            <span className="block text-[10px] text-stone-500">LINE等でも送れます</span>        
+                                            <span className="block text-sm font-bold text-stone-700 font-mincho">SNSで送る</span>        
+                                            <span className="block text-[10px] text-stone-500">LINE等で送れます<br/>印刷も可能です</span>        
                                         </div>        
                                     </div>        
                                 </div>        
                             </div>        
         
                         {/* 特徴リスト */}        
-                        <div className="text-left bg-stone-50 p-5 md:p-6 rounded-2xl space-y-4 mt-6 border border-stone-100">        
+                        <div className="text-left bg-white p-5 md:p-6 rounded-2xl space-y-4 mt-6 border border-rose-100 shadow-sm">        
                             <div className="flex items-start gap-3">        
-                                <div className="text-[#D9333F] shrink-0 mt-0.5">        
+                                <div className="text-[#be185d] shrink-0 mt-0.5">        
                                     <IconCheckCircle size={20} />        
                                 </div>        
-                                <p className="font-bold text-stone-700 text-sm md:text-base">スマホ完結！</p>        
+                                <p className="font-bold text-stone-700 text-sm md:text-base font-mincho">品の選択からお送りまで、スマホで完結！</p>        
                             </div>        
                             <div className="flex items-start gap-3">        
-                                <div className="text-[#D9333F] shrink-0 mt-0.5">        
+                                <div className="text-[#be185d] shrink-0 mt-0.5">        
                                     <IconCheckCircle size={20} />        
                                 </div>        
-                                <p className="font-bold text-stone-700 text-sm md:text-base">記念のウェデイングフォトを添えられる！</p>        
+                                <p className="font-bold text-stone-700 text-sm md:text-base font-mincho">記念のウェデイングフォトを添えられる！</p>        
                             </div>        
                             <div className="flex items-start gap-3">        
-                                <div className="text-[#D9333F] shrink-0 mt-0.5">        
+                                <div className="text-[#be185d] shrink-0 mt-0.5">        
                                     <IconCheckCircle size={20} />        
                                 </div>        
                                 <div>        
-                                    <p className="font-bold text-stone-700 text-sm md:text-base">2人にピッタリのテンプレートを選べる！</p>        
+                                    <p className="font-bold text-stone-700 text-sm md:text-base font-mincho">式後に贈れるから、ご祝儀への失礼が少ない！</p>        
                                 </div>        
                             </div>        
                         </div>        
-                        <p className="text-black font-medium leading-relaxed">        
-                            せっかくなら、ちょっと浮いた<br/>手間やお金をギフトに昇華し、<br className="hidden md:block"/><br/><u>大切な方に思いを伝えませんか？</u>        
+                        <p className="text-stone-700 font-medium leading-relaxed font-mincho pt-4">        
+                            人生に一度の大切な日<br/><br/>持ち込み料を気にせず、<br/><br/><u className="decoration-rose-300 decoration-2 underline-offset-4">お二人の想いの込もった<br/>引き出物を贈りませんか？</u>        
                         </p>        
         
                     </div>        
         
                     <div className="space-y-6">        
-                        <h3 className="text-xl font-bold text-center text-stone-600 flex items-center justify-center gap-2">        
-                            <IconSparkles className="text-[#D9333F]" /> 使い方はカンタン！        
+                        <h3 className="text-xl font-bold text-center text-stone-600 flex items-center justify-center gap-2 font-mincho mt-8">        
+                            <IconSparkles className="text-[#be185d]" /> 使い方はカンタン！        
                         </h3>        
         
                         {/* STEP 1 */}        
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 relative overflow-hidden">        
-                            <div className="absolute top-0 left-0 bg-[#D9333F] text-white px-4 py-1 rounded-br-xl text-sm font-bold">STEP 1</div>        
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 relative overflow-hidden">        
+                            <div className="absolute top-0 left-0 bg-[#be185d] text-white px-4 py-1 rounded-br-xl text-sm font-bold font-mincho">STEP 1</div>        
                             <div className="mt-4 md:flex md:items-start md:gap-6">        
                                 <div className="flex-1 space-y-3">        
-                                    <h4 className="font-bold text-lg text-stone-700">贈りたいギフトを選ぶ！</h4>        
-                                    <p className="text-sm text-stone-500">        
+                                    <h4 className="font-bold text-lg text-stone-700 font-mincho">贈りたいギフトを選ぶ！</h4>        
+                                    <p className="text-sm text-stone-500 font-mincho">        
                                         選んだギフトを購入し、ギフトのURLをコピーしておいてね！        
                                     </p>        
-                                    <div className="bg-stone-50 p-4 rounded-xl space-y-3 mt-3">        
-                                        <p className="text-xs font-bold text-stone-500">オススメのデジタルギフト購入サイト</p>        
+                                    <div className="bg-rose-50 p-4 rounded-xl space-y-3 mt-3 border border-rose-100">        
+                                        <p className="text-xs font-bold text-stone-500 font-mincho">オススメのデジタルギフト購入サイト</p>        
                                     
         
-                                        <a href="https://giftee.com/?srsltid=AfmBOopn__piridn-qPv4jq6n-VFdZDwuXC45jVmM_Xb42Dz-q4-XUSY" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white rounded-lg border border-stone-200 hover:border-[#D9333F] transition-colors group">        
-                                            <span className="font-bold text-stone-700 group-hover:text-[#D9333F] transition-colors">giftee (ギフティ)</span>        
-                                            <IconExternalLink className="text-stone-400 group-hover:text-[#D9333F]" />        
+                                        <a href="https://giftee.com/?srsltid=AfmBOopn__piridn-qPv4jq6n-VFdZDwuXC45jVmM_Xb42Dz-q4-XUSY" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white rounded-lg border border-rose-200 hover:border-[#be185d] transition-colors group shadow-sm">        
+                                            <span className="font-bold text-stone-700 group-hover:text-[#be185d] transition-colors font-mincho">giftee (ギフティ)</span>        
+                                            <IconExternalLink className="text-stone-400 group-hover:text-[#be185d]" />        
                                         </a>        
         
-                                        <a href="https://giftee.com/items?category_id=14&srsltid=AfmBOoqeqzgmwF4LeTNKD-qrssU2K1BoowPe_RvwW4D9Ch0H1MHWPV1F" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white rounded-lg border border-stone-200 hover:border-[#D9333F] transition-colors group">        
+                                        <a href="https://giftee.com/items?category_id=14&srsltid=AfmBOoqeqzgmwF4LeTNKD-qrssU2K1BoowPe_RvwW4D9Ch0H1MHWPV1F" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white rounded-lg border border-rose-200 hover:border-[#be185d] transition-colors group shadow-sm">        
                                             <div>        
-                                                <span className="font-bold text-stone-700 group-hover:text-[#D9333F] transition-colors">オススメのカタログギフト</span>        
+                                                <span className="font-bold text-stone-700 group-hover:text-[#be185d] transition-colors font-mincho">オススメのカタログギフト</span>        
                                             </div>        
-                                            <IconExternalLink className="text-stone-400 group-hover:text-[#D9333F]" />        
+                                            <IconExternalLink className="text-stone-400 group-hover:text-[#be185d]" />        
                                         </a>        
         
                                         {/* 【追加】まとめてオーダーへのリンク */}        
-                                        <a href="https://giftee.com/announcements/69?srsltid=AfmBOopWShxNrfOQUnNnKodGgHYFo91AeMm9P6ZsFAPcW7baYGdqHpy5" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white rounded-lg border border-stone-200 hover:border-[#D9333F] transition-colors group">        
+                                        <a href="https://giftee.com/announcements/69?srsltid=AfmBOopWShxNrfOQUnNnKodGgHYFo91AeMm9P6ZsFAPcW7baYGdqHpy5" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white rounded-lg border border-rose-200 hover:border-[#be185d] transition-colors group shadow-sm">        
                                             <div>        
-                                                <span className="font-bold text-stone-700 group-hover:text-[#D9333F] transition-colors">giftee まとめてオーダー</span>        
-                                                <p className="text-[10px] text-stone-400 mt-1">大人数にまとめて年賀状を出す時は、「まとめてオーダー」がオススメ！</p>        
+                                                <span className="font-bold text-stone-700 group-hover:text-[#be185d] transition-colors font-mincho">giftee まとめてオーダー</span>        
+                                                <p className="text-[10px] text-stone-400 mt-1 font-mincho">大人数にまとめて年賀状を出す時は、「まとめてオーダー」がオススメ！</p>        
                                             </div>        
-                                            <IconExternalLink className="text-stone-400 group-hover:text-[#D9333F]" />        
+                                            <IconExternalLink className="text-stone-400 group-hover:text-[#be185d]" />        
                                         </a>        
         
                                     </div>        
-                                    <p className="text-sm text-stone-500">        
-                                        <u>※ギフト無しでも年賀状を送れます。</u>        
+                                    <p className="text-sm text-stone-500 font-mincho">        
+                                        <u className="decoration-rose-300">※ギフト無しでもメッセージカードを送れます。</u>        
                                     </p>        
                                 </div>        
                             </div>        
                         </div>        
         
                         {/* STEP 2 */}        
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 relative overflow-hidden">        
-                            <div className="absolute top-0 left-0 bg-[#D9333F] text-white px-4 py-1 rounded-br-xl text-sm font-bold">STEP 2</div>        
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 relative overflow-hidden">        
+                            <div className="absolute top-0 left-0 bg-[#be185d] text-white px-4 py-1 rounded-br-xl text-sm font-bold font-mincho">STEP 2</div>        
                             <div className="mt-4">        
-                                <h4 className="font-bold text-lg text-stone-700">メッセージカードを作成！</h4>        
-                                <p className="text-sm text-stone-500 mt-2">        
-                                    「デジタルメッセージカードを作る」を押して、あなた好みのメッセージカードを作成！<br/>        
+                                <h4 className="font-bold text-lg text-stone-700 font-mincho">メッセージカードを作成！</h4>        
+                                <p className="text-sm text-stone-500 mt-2 font-mincho">        
+                                    「デジタル引き出物を作る」を押して、お二人好みのメッセージカードを作成！<br/>        
                                     テンプレートを選んで、写真やメッセージを入れよう。        
                                 </p>        
                             </div>        
                         </div>        
         
                         {/* STEP 3 */}        
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 relative overflow-hidden">        
-                            <div className="absolute top-0 left-0 bg-[#D9333F] text-white px-4 py-1 rounded-br-xl text-sm font-bold">STEP 3</div>        
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 relative overflow-hidden">        
+                            <div className="absolute top-0 left-0 bg-[#be185d] text-white px-4 py-1 rounded-br-xl text-sm font-bold font-mincho">STEP 3</div>        
                             <div className="mt-4">        
-                                <h4 className="font-bold text-lg text-stone-700">印刷！</h4>        
-                                <p className="text-sm text-stone-500 mt-2">        
-                                    作成ボタンで画像を生成して、印刷しよう！LINEやSNSで送ることも出来ます。        
+                                <h4 className="font-bold text-lg text-stone-700 font-mincho">SNSで送る！</h4>        
+                                <p className="text-sm text-stone-500 mt-2 font-mincho">        
+                                    作成ボタンで画像を生成して、LINEやSNSで送りましょう。印刷も可能です。        
                                 </p>        
                             </div>        
                         </div>        
                     </div>        
         
-                    <div className="text-center pt-4">        
+                    <div className="text-center pt-8">        
                         <button         
                             onClick={onStart}        
-                            className="inline-flex items-center gap-3 px-12 py-5 rounded-full font-bold text-white text-xl transition-transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl animate-bounce"        
+                            className="inline-flex items-center gap-3 px-12 py-5 rounded-full font-bold text-white text-xl transition-transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl animate-bounce font-mincho"        
                             style={{ backgroundColor: mainColor }}        
                         >        
                             <IconMagic size={28} />        
-                            デジタルメッセージカードを作る        
+                            デジタル引き出物を作る        
                         </button>        
                     </div>        
                 </div>        
@@ -1292,7 +1294,7 @@
                                         })}        
                                     </div>        
         
-                                    <div className="flex flex-col items-center gap-3">        
+                                    <div className="flex flex-col items-center gap-2">        
                                         {/* ボタンの出し分け: 1名なら「送る」、複数名なら「保存する」 */}        
                                         {generatedImages.length === 1 ? (        
                                             <button onClick={handleShareSingle} className="inline-flex items-center gap-3 px-12 py-4 rounded-full font-bold text-white text-lg transition-all hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl bg-green-500">        
