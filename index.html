@@ -131,34 +131,24 @@
         const CARD_WIDTH = 378;        
         const CARD_HEIGHT = 559;        
         
-        // --- Helper: パターン生成関数 (Wedding仕様) ---        
-        const getElegantPatternStyle = (color, type = 'dot') => {        
-            if (type === 'stripe') {        
-                return {        
-                    backgroundColor: '#ffffff',        
-                    backgroundImage: `repeating-linear-gradient(45deg, ${color} 0, ${color} 1px, transparent 0, transparent 50%)`,        
-                    backgroundSize: '20px 20px'        
-                };        
-            } else if (type === 'check') {        
-                 return {        
-                    backgroundColor: '#ffffff',        
-                    backgroundImage: `        
-                        linear-gradient(45deg, ${color} 25%, transparent 25%),         
-                        linear-gradient(-45deg, ${color} 25%, transparent 25%),         
-                        linear-gradient(45deg, transparent 75%, ${color} 75%),         
-                        linear-gradient(-45deg, transparent 75%, ${color} 75%)        
-                    `,        
-                    backgroundSize: '20px 20px',        
-                    backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px'        
-                };        
-            } else {        
-                // Dot        
-                return {        
-                    backgroundColor: '#ffffff',        
-                    backgroundImage: `radial-gradient(${color} 1px, transparent 1px)`,        
-                    backgroundSize: '20px 20px'        
-                };        
-            }        
+        // --- Helper: パターン生成関数 (Wedding仕様 - SVG Data URI版) ---        
+        // 修正: html2canvasで確実に描画させるため、CSSグラデーションではなくSVG画像を生成して返す        
+        const getElegantPatternStyle = (color) => {        
+            // シンプルな斜めストライプのSVG        
+            const svgIcon = `        
+            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">        
+                <g fill="${color}" fill-opacity="0.4">        
+                    <path d="M0 20L20 0H10L0 10M20 20V10L10 20"/>        
+                </g>        
+            </svg>`;        
+            const encodedSvg = encodeURIComponent(svgIcon).replace(/'/g, '%27').replace(/"/g, '%22');        
+        
+            return {        
+                backgroundColor: '#ffffff',        
+                backgroundImage: `url("data:image/svg+xml,${encodedSvg}")`,        
+                backgroundSize: '20px 20px',        
+                backgroundRepeat: 'repeat'        
+            };        
         };        
         
         // --- Templates Data (Wedding仕様に変更) ---        
@@ -167,7 +157,8 @@
                 id: 'elegant-pink',        
                 name: 'Elegant (Pink)',        
                 mainColor: '#be185d', // Pink 700        
-                patternStyle: getElegantPatternStyle('#fce7f3', 'dot'), // 薄いピンクのドット        
+                // 修正: SVG版のストライプ生成関数を使用        
+                patternStyle: getElegantPatternStyle('#fce7f3'),         
                 fontHeading: 'font-script',        
                 fontBody: 'font-mincho',        
                 decorType: 'wedding-flower'        
@@ -176,7 +167,7 @@
                 id: 'classic-blue',        
                 name: 'Classic (Blue)',        
                 mainColor: '#1e40af', // Blue 800 (Something Blue)        
-                patternStyle: getElegantPatternStyle('#dbeafe', 'stripe'), // 薄い青のストライプ        
+                patternStyle: getElegantPatternStyle('#dbeafe'),         
                 fontHeading: 'font-script',        
                 fontBody: 'font-mincho',        
                 decorType: 'wedding-ring'        
@@ -185,7 +176,7 @@
                 id: 'natural-green',        
                 name: 'Natural (Green)',        
                 mainColor: '#15803d', // Green 700        
-                patternStyle: getElegantPatternStyle('#dcfce7', 'check'), // 薄い緑のチェック        
+                patternStyle: getElegantPatternStyle('#dcfce7'),         
                 fontHeading: 'font-script',        
                 fontBody: 'font-maru',        
                 decorType: 'wedding-heart'        
@@ -486,7 +477,7 @@
         }) => {        
             return (        
                 <div         
-                    className="shadow-2xl overflow-hidden relative flex flex-col mx-auto transition-all"        
+                    className={`overflow-hidden relative flex flex-col mx-auto transition-all ${!isCapture ? 'shadow-2xl' : ''}`}        
                     style={{         
                         width: `${CARD_WIDTH}px`,         
                         height: `${CARD_HEIGHT}px`,        
@@ -499,10 +490,14 @@
                     }}         
                 >        
                     {/* --- Background Layer (Applied via Inline Style for html2canvas compatibility) --- */}        
+                    {/* 修正: inset:0ではなくtop/left/width/heightを明示し、確実に描画させる */}  
                     <div         
                         style={{        
                             position: 'absolute',        
-                            inset: 0,        
+                            top: 0,  
+                            left: 0,  
+                            width: '100%',  
+                            height: '100%',  
                             zIndex: 0,        
                             pointerEvents: 'none',        
                             ...template.patternStyle // Inject pattern style directly        
@@ -515,11 +510,13 @@
                                 
                         {/* Top Section: Header & Stamp */}        
                         <div className="flex justify-between items-start mb-2 pointer-events-none">        
-                            <div className="flex flex-col gap-1 w-full text-center mt-2">        
+                            {/* 修正: gapを使用せず、marginで間隔調整 */}  
+                            <div className="flex flex-col w-full text-center mt-2">        
                                 <h2 className={`text-5xl ${template.fontHeading} leading-none`} style={{ writingMode: 'horizontal-tb', color: template.mainColor }}>        
                                     Thank you        
                                 </h2>        
-                                <p className={`text-base font-bold tracking-[0.2em] mb-0 leading-none mt-2 ${template.fontHeading}`} style={{ color: template.mainColor }}>Wedding Reception</p>        
+                                {/* 修正: マージンをインラインスタイルで指定してhtml2canvasの解釈ブレを防ぐ */}  
+                                <p className={`text-base font-bold tracking-[0.2em] mb-0 leading-none ${template.fontHeading}`} style={{ color: template.mainColor, marginTop: '10px' }}>Wedding Reception</p>        
                                 {/* Recipient Name (自動で「様」を付与) */}        
                                 {recipientName && (        
                                     <div         
@@ -577,16 +574,18 @@
                             </div>        
         
                             {/* 修正箇所: giftUrlの有無でレイアウトクラスを切り替え */}        
-                            <div className={`absolute top-60 bottom-5 pt-2 overflow-hidden pointer-events-none ${giftUrl ? 'left-[9.5rem] right-2 text-left' : 'left-6 right-6 text-center'}`}>        
+                            {/* QRコード表示のために top を調整 (top-[210px]) */}  
+                            <div className={`absolute top-[210px] bottom-5 pt-2 overflow-hidden pointer-events-none ${giftUrl ? 'left-[9.5rem] right-2 text-left' : 'left-6 right-6 text-center'}`}>        
                                 <div className={`text-stone-800 whitespace-pre-wrap ${template.fontBody} ${messageStyle}`}>        
                                     {message || "ここにメッセージが入ります"}        
                                 </div>        
                             </div>        
         
                             {/* QR Code Area */}        
-                            {/* 修正箇所: giftUrlがない場合はエリアごと非表示にする */}        
+                            {/* 修正箇所: giftUrlがない場合はエリアごと非表示にする */}  
+                            {/* QRコード表示位置を調整 (top-[210px]) */}  
                             {giftUrl && (        
-                                <div className="absolute top-60 left-0 w-32 pt-2 flex flex-col justify-start items-center -ml-1 pointer-events-none">        
+                                <div className="absolute top-[210px] left-0 w-32 pt-2 flex flex-col justify-start items-center -ml-1 pointer-events-none">        
                                     <div className="relative">        
                                         <div className="flex flex-col items-center">        
                                             <p className="text-[10px] mb-2 font-bold tracking-tighter" style={{ color: template.mainColor }}>引き出物を受取る</p>        
@@ -684,7 +683,8 @@
                 if (len <= 50) return "text-xs leading-[1.6] tracking-wider";        
                 if (len <= 70) return "text-[11px] leading-[1.5] tracking-wide";        
                 if (len <= 100) return "text-[9px] leading-[1.4] tracking-normal";        
-                return "text-[8px] leading-[1.2] tracking-tight"; // 101文字以上        
+                if (len <= 130) return "text-[8px] leading-[1.2] tracking-tight"; // 130文字まで微調整  
+                return "text-[7px] leading-[1.1] tracking-tighter"; // 131〜180文字対応        
             }, [message]);        
         
             // 修正: 初期画像の比率判定 (sample4.png)        
@@ -803,12 +803,16 @@
         
                 // 隠しコンテナを作成（画面外）        
                 const hiddenContainer = document.createElement('div');        
-                hiddenContainer.style.position = 'fixed';        
-                hiddenContainer.style.top = '-9999px';        
-                hiddenContainer.style.left = '-9999px';        
+                // 修正: プレビュー通りの出力を保証するため、コンテナの配置を調整  
+                // fixedではなくabsoluteにし、z-indexで背面に隠す。  
+                // これによりhtml2canvasの座標計算ズレや、背景描画漏れを防ぐ。  
+                hiddenContainer.style.position = 'absolute';        
+                hiddenContainer.style.top = '0';        
+                hiddenContainer.style.left = '0';        
                 hiddenContainer.style.width = CARD_WIDTH + 'px';        
                 hiddenContainer.style.height = CARD_HEIGHT + 'px';        
-                hiddenContainer.style.zIndex = '-1000';        
+                hiddenContainer.style.zIndex = '-9999';        
+                hiddenContainer.style.pointerEvents = 'none'; // 念のため操作不可に  
                 document.body.appendChild(hiddenContainer);        
         
                 const root = ReactDOM.createRoot(hiddenContainer);        
@@ -854,9 +858,15 @@
                         const canvas = await html2canvas(hiddenContainer.firstChild, {        
                             scale: 3,         
                             useCORS: true,         
-                            backgroundColor: '#ffffff', // Changed for JPEG support        
+                            // 修正: 背景色の干渉を避けるため、backgroundColor指定を削除 (nullにする)  
+                            backgroundColor: null,   
                             width: CARD_WIDTH,         
-                            height: CARD_HEIGHT,         
+                            height: CARD_HEIGHT,  
+                            // 修正: スクロールやウィンドウサイズの影響を排除するオプションを追加  
+                            scrollX: 0,  
+                            scrollY: 0,  
+                            windowWidth: document.documentElement.offsetWidth,  
+                            windowHeight: document.documentElement.offsetHeight  
                         });        
         
                         const dataUrl = canvas.toDataURL("image/jpeg", 0.9); // Changed to JPEG        
@@ -1170,8 +1180,8 @@
         
                                         <div className="space-y-2">        
                                             <label className="flex items-center gap-2 text-sm font-bold text-stone-500"><IconType size={16} /> メッセージ</label>        
-                                            <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={6} maxLength={120} className="w-full p-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2" style={{ '--tw-ring-color': selectedTemplate.mainColor }} />        
-                                            <p className="text-right text-xs text-stone-400">{message.length} / 120</p>        
+                                            <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={6} maxLength={180} className="w-full p-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-2" style={{ '--tw-ring-color': selectedTemplate.mainColor }} />        
+                                            <p className="text-right text-xs text-stone-400">{message.length} / 180</p>        
                                         </div>        
                                     </div>        
                                 </div>        
@@ -1254,7 +1264,7 @@
                                         ) : (        
                                             <>        
                                                 <IconMagic size={24} />        
-                                                <span>デジタルメッセージカードを作成する</span>        
+                                                <span>デジタル引き出物を作成する</span>        
                                             </>        
                                         )}        
                                     </button>        
@@ -1294,7 +1304,7 @@
                                         })}        
                                     </div>        
         
-                                    <div className="flex flex-col items-center gap-2">        
+                                    <div className="flex flex-col items-center gap-3">        
                                         {/* ボタンの出し分け: 1名なら「送る」、複数名なら「保存する」 */}        
                                         {generatedImages.length === 1 ? (        
                                             <button onClick={handleShareSingle} className="inline-flex items-center gap-3 px-12 py-4 rounded-full font-bold text-white text-lg transition-all hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl bg-green-500">        
